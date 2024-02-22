@@ -1,0 +1,7 @@
+.gradle
+.idea
+build
+.vscode
+**/.DS_Store
+bin
+indexes
