@@ -3,7 +3,7 @@ package com.strumenta.kuki.parser
 import KukiLexer
 import KukiParser
 import KukiParser.*
-import com.strumenta.kuki.ast.KukiParseTreeMapper
+import com.strumenta.kuki.mapping.KukiParseTreeMapper
 import com.strumenta.kuki.ast.Recipe
 import com.strumenta.kolasu.model.Source
 import com.strumenta.kolasu.parsing.ANTLRTokenFactory
