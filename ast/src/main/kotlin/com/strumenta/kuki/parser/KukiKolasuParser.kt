@@ -10,6 +10,7 @@ import com.strumenta.kolasu.parsing.ANTLRTokenFactory
 import com.strumenta.kolasu.parsing.KolasuANTLRToken
 import com.strumenta.kolasu.parsing.KolasuParser
 import com.strumenta.kolasu.validation.Issue
+import com.strumenta.kuki.semantics.resolveSymbols
 import org.antlr.v4.runtime.CharStream
 import org.antlr.v4.runtime.Lexer
 import org.antlr.v4.runtime.TokenStream
@@ -29,5 +30,10 @@ class KukiKolasuParser : KolasuParser<Recipe, KukiParser, RecipeContext, KolasuA
         val astRoot = mapper.transform(parseTreeRoot) as? Recipe
         issues.addAll(mapper.issues)
         return astRoot
+    }
+
+    override fun postProcessAst(recipe: Recipe, issues: MutableList<Issue>): Recipe {
+        resolveSymbols(recipe, issues)
+        return recipe
     }
 }

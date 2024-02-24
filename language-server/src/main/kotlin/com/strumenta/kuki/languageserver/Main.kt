@@ -2,11 +2,11 @@ package com.strumenta.kuki.languageserver
 
 import com.strumenta.kuki.parser.KukiKolasuParser
 import com.strumenta.kolasu.languageserver.KolasuServer
+import com.strumenta.kolasu.languageserver.SymbolResolver
 import com.strumenta.kolasu.model.Node
 import com.strumenta.kuki.ast.Recipe
 import com.strumenta.kuki.ast.Step
 import com.strumenta.kuki.ast.Utensil
-import com.strumenta.kuki.semantics.KukiSymbolResolver
 import org.eclipse.lsp4j.SymbolKind
 
 fun main() {
@@ -24,4 +24,8 @@ class KukiServer : KolasuServer<Recipe>(KukiKolasuParser(), "kuki", listOf("kuki
             SymbolKind.Variable
         }
     }
+}
+
+class KukiSymbolResolver : SymbolResolver {
+    override fun resolveSymbols(tree: Node?, uri: String) {}
 }

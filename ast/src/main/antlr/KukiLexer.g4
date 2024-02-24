@@ -9,6 +9,7 @@ AND: 'and';
 INTO: 'into';
 TO: 'to';
 FOR: 'for';
+IN: 'in';
 
 HYPHEN: '-';
 COLON: ':';
