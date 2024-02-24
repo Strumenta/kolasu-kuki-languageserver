@@ -1,3 +1,4 @@
+import com.strumenta.kolasu.traversing.walk
 import com.strumenta.kuki.parser.KukiKolasuParser
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
@@ -8,7 +9,9 @@ class TestAST {
     fun testSpecificFile() {
         val code = File("../examples/cookies.kuki").readText()
         val parser = KukiKolasuParser()
+
         val parsingResult = parser.parse(code)
+
         assertEquals(0, parsingResult.issues.size)
     }
 }

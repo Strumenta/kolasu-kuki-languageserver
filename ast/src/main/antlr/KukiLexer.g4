@@ -1,6 +1,7 @@
 lexer grammar KukiLexer;
 
 INGREDIENTS: 'INGREDIENTS';
+UTENSILS: 'UTENSILS';
 STEPS: 'STEPS';
 
 THE: 'the';

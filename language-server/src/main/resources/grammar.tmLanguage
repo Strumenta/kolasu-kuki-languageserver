@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>name</key>
+    <string>Kuki</string>
+    <key>scopeName</key>
+    <string>main</string>
+    <key>fileTypes</key>
+    <array>
+        <string>kuki</string>
+    </array>
+    <key>patterns</key>
+    <array>
+        <!-- Keywords -->
+        <dict>
+            <key>name</key>
+            <string>keyword.control.kuki</string>
+            <key>match</key>
+            <string>\b(INGREDIENTS|UTENSILS|STEPS|Mix|Cut|Place|Heat|Bake|the|into|to|for|and|seconds|minutes|hours|degrees|Farenheit|g|ml)\b</string>
+        </dict>
+        <!-- Identifiers -->
+        <dict>
+            <key>name</key>
+            <string>string.kuki</string>
+            <key>match</key>
+            <string>\b([A-Z]+)\b</string>
+        </dict>
+        <!-- Literals -->
+        <dict>
+            <key>name</key>
+            <string>constant.numeric.kuki</string>
+            <key>match</key>
+            <string>\b\d+(\.\d+)?\b</string>
+        </dict>
+        <!-- Operators -->
+        <dict>
+            <key>name</key>
+            <string>punctuation.kuki</string>
+            <key>match</key>
+            <string>(:|-|\.)</string>
+        </dict>
+    </array>
+</dict>
+</plist>
