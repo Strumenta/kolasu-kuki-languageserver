@@ -4,21 +4,22 @@ options {
 	tokenVocab = KukiLexer;
 }
 
-recipe: title=ID INGREDIENTS ingredients+=ingredient+ UTENSILS utensils+=utensil* STEPS steps+=step+;
+recipe: title+=ID+ INGREDIENTS FOR yield=NUMBER ingredients+=ingredient+ UTENSILS utensils+=utensil* STEPS steps+=step+;
 
-ingredient: HYPHEN? name=item_declaration COLON amount=NUMBER unit=UNIT?;
+ingredient: HYPHEN? name=itemDeclaration (COLON amount=NUMBER unit=UNIT?)?;
 
-utensil: HYPHEN? name=item_declaration;
+utensil: HYPHEN? name=itemDeclaration;
 
 step: (number=NUMBER PERIOD)? action PERIOD;
 
-action: mix | cut | place | heat | bake;
+action: creation | temperature | time | space | singular;
 
-mix: MIX THE items+=reference ((COMMA items+=reference)* AND items+=reference)? INTO target=item_declaration;
-cut: CUT THE items+=reference ((COMMA items+=reference)* AND items+=reference)? IN target=item_declaration;
-place: PLACE THE items+=reference ((COMMA items+=reference)* AND items+=reference)? IN target=item_declaration;
-heat: HEAT THE items+=reference ((COMMA items+=reference)* AND items+=reference)? TO amount=NUMBER unit=TEMPERATURE_UNIT;
-bake: BAKE THE items+=reference ((COMMA items+=reference)* AND items+=reference)? FOR amount=NUMBER unit=TIME_UNIT;
+creation: name=(MIX|SLICE) items=itemList INTO THE? target=itemDeclaration;
+temperature: name=HEAT items=itemList TO amount=NUMBER unit=TEMPERATURE_UNIT;
+time: name=(BAKE|COOK) items=itemList FOR amount=NUMBER unit=TIME_UNIT;
+space: name=(PLACE|ADD|SERVE) items=itemList (IN|TO) THE? target=itemReference;
+singular: name=(PEEL|BEAT|FLIP|DRAIN|GRATE) items=itemList;
 
-reference: ID;
-item_declaration: ID;
+itemDeclaration: ID+;
+itemReference: ID+;
+itemList: THE? items+=itemReference ((COMMA THE? items+=itemReference)* AND THE? items+=itemReference)?;

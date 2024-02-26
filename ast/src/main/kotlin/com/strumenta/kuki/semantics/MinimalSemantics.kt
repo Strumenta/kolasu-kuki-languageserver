@@ -8,7 +8,7 @@ fun resolveSymbols(recipe: Recipe, issues: MutableList<Issue>) {
     val declarations = mutableMapOf<String, ItemDeclaration>()
     val referencedDeclarations = mutableSetOf<String>()
 
-    fun checkReferences (items: List<IngredientReference>) {
+    fun checkReferences (items: List<ItemReference>) {
         for (item in items) {
             val declaration = declarations[item.reference.name]
             if (declaration == null) {
@@ -43,26 +43,25 @@ fun resolveSymbols(recipe: Recipe, issues: MutableList<Issue>) {
     for (step: Any in recipe.steps) {
         if (step is Step) {
             when (step) {
-                is Mix -> {
+                is Creation -> {
                     checkReferences(step.items)
                     define(step.target.name.lowercase(), step.target)
                 }
 
-                is Cut -> {
+                is Spatial -> {
                     checkReferences(step.items)
-                    define(step.target.name.lowercase(), step.target)
+                    checkReferences(listOf(step.target))
                 }
 
-                is Place -> {
-                    checkReferences(step.items)
-                    define(step.target.name.lowercase(), step.target)
-                }
-
-                is Heat -> {
+                is Temperature -> {
                     checkReferences(step.items)
                 }
 
-                is Bake -> {
+                is Temporal -> {
+                    checkReferences(step.items)
+                }
+
+                is Singular -> {
                     checkReferences(step.items)
                 }
             }

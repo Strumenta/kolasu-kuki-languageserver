@@ -10,6 +10,7 @@ INTO: 'into';
 TO: 'to';
 FOR: 'for';
 IN: 'in';
+WITH: 'with';
 
 HYPHEN: '-';
 COLON: ':';
@@ -17,16 +18,22 @@ PERIOD: '.';
 COMMA: ',';
 
 MIX: 'Mix';
-CUT: 'Cut';
 ADD: 'Add';
 HEAT: 'Heat';
 SERVE: 'Serve';
 WASH: 'Wash';
 PLACE: 'Place';
 BAKE: 'Bake';
+PEEL: 'Peel';
+SLICE: 'Slice';
+COOK: 'Cook';
+BEAT: 'Beat';
+FLIP: 'Flip';
+GRATE: 'Grate';
+DRAIN: 'Drain';
 
 UNIT: 'ml' | 'g';
-TIME_UNIT: 'second' 's'? | 'minute' 's'? | 'hour' 's'?;
+TIME_UNIT: 'seconds' | 'minutes' | 'hours';
 TEMPERATURE_UNIT: 'degrees' | 'farenheit';
 
 ID: [a-zA-Z]+;

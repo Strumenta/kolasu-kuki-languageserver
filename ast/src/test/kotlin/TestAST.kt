@@ -6,8 +6,28 @@ import java.io.File
 
 class TestAST {
     @Test
-    fun testSpecificFile() {
-        val code = File("../examples/cookies.kuki").readText()
+    fun testAlmondCookies() {
+        val code = File("../examples/Almond cookies.kuki").readText()
+        val parser = KukiKolasuParser()
+
+        val parsingResult = parser.parse(code)
+
+        assertEquals(0, parsingResult.issues.size)
+    }
+
+    @Test
+    fun testSpanishOmelet() {
+        val code = File("../examples/Spanish omelet.kuki").readText()
+        val parser = KukiKolasuParser()
+
+        val parsingResult = parser.parse(code)
+
+        assertEquals(0, parsingResult.issues.size)
+    }
+
+    @Test
+    fun testPastaCarbonara() {
+        val code = File("../examples/Pasta carbonara.kuki").readText()
         val parser = KukiKolasuParser()
 
         val parsingResult = parser.parse(code)

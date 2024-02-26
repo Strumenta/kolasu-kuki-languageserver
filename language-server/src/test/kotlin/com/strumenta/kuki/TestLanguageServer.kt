@@ -1,6 +1,5 @@
 import com.strumenta.kolasu.languageserver.testing.TestKolasuServer
 import com.strumenta.kuki.ast.Recipe
-import com.strumenta.kuki.languageserver.KukiCodeGenerator
 import com.strumenta.kuki.parser.KukiKolasuParser
 import org.eclipse.lsp4j.Position
 import org.junit.jupiter.api.Test

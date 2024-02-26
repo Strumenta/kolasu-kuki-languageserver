@@ -6,47 +6,58 @@ import com.strumenta.kolasu.mapping.translateCasted
 import com.strumenta.kolasu.mapping.translateList
 import com.strumenta.kolasu.mapping.translateOnlyChild
 import com.strumenta.kolasu.model.ReferenceByName
-import com.strumenta.kolasu.parsing.withParseTreeNode
 import com.strumenta.kuki.ast.*
-import kotlin.reflect.KClass
 
 class KukiParseTreeMapper : ParseTreeToASTTransformer() {
     init {
-        registerNodeFactory(RecipeContext::class) { context ->
-            Recipe(name = context.title.text, ingredients = translateList(context.ingredients), utensils = translateList(context.utensils), steps = translateList(context.steps))
+        registerNodeFactory(RecipeContext::class) { context -> Recipe(
+            name = context.title.joinToString(" ") { it.text },
+            yield = context.yield.text.toInt(),
+            ingredients = translateList(context.ingredients),
+            utensils = translateList(context.utensils),
+            steps = translateList(context.steps))
         }
-        registerNodeFactory(IngredientContext::class) { context ->
-            Ingredient(declaration = translateCasted(context.item_declaration()), amount = context.amount.text.toDouble(), unit = translateEnum<MeasureUnit>(context.unit?.text))
+        registerNodeFactory(IngredientContext::class) { context -> Ingredient(
+            declaration = translateCasted(context.itemDeclaration()),
+            amount = context.amount?.text?.toDouble(),
+            unit = translateEnum<MeasureUnit>(context.unit?.text))
         }
-        registerNodeFactory(UtensilContext::class) { context ->
-            Utensil(declaration = translateCasted(context.name))
+        registerNodeFactory(UtensilContext::class) { context -> Utensil(
+            declaration = translateCasted(context.name))
         }
-        registerNodeFactory(StepContext::class) { context ->
-            translateOnlyChild(context)
+        registerNodeFactory(StepContext::class) { context -> translateOnlyChild(context) }
+        registerNodeFactory(ActionContext::class) { context -> translateOnlyChild(context) }
+        registerNodeFactory(CreationContext::class) { context -> Creation(
+            name = context.name.text,
+            items = context.items.items.map { translateCasted(it) },
+            target = translateCasted(context.target))
         }
-        registerNodeFactory(ActionContext::class) { context ->
-            translateOnlyChild(context)
+        registerNodeFactory(SpaceContext::class) { context -> Spatial(
+            name = context.name.text,
+            items = context.items.items.map { translateCasted(it) },
+            target = translateCasted(context.target))
         }
-        registerNodeFactory(MixContext::class) { context ->
-            Mix(name = "mix", items = translateList(context.items), target = translateCasted(context.target))
+        registerNodeFactory(TemperatureContext::class) { context -> Temperature(
+            name = context.name.text,
+            items = context.items.items.map { translateCasted(it) },
+            target = context.amount.text.toDouble(),
+            unit = translateEnum<TemperatureUnit>(context.unit.text)!!)
         }
-        registerNodeFactory(CutContext::class) { context ->
-            Cut(name = "cut", items = translateList(context.items), target = translateCasted(context.target))
+        registerNodeFactory(TimeContext::class) { context -> Temporal(
+            name = context.name.text,
+            items = context.items.items.map { translateCasted(it) },
+            target = context.amount.text.toDouble(),
+            unit = translateEnum<TimeUnit>(context.unit.text)!!)
         }
-        registerNodeFactory(PlaceContext::class) { context ->
-            Place(name = "place", items = translateList(context.items), target = translateCasted(context.target))
+        registerNodeFactory(SingularContext::class) { context -> Singular(
+            name = context.name.text,
+            items = context.items.items.map { translateCasted(it) }
+        )}
+        registerNodeFactory(ItemDeclarationContext::class) { context ->
+            ItemDeclaration(context.ID().joinToString(" ").lowercase())
         }
-        registerNodeFactory(HeatContext::class) { context ->
-            Heat(name = "heat", items = translateList(context.items), target = context.amount.text.toDouble(), unit = translateEnum<TemperatureUnit>(context.unit.text)!!)
-        }
-        registerNodeFactory(BakeContext::class) { context ->
-            Bake(name = "bake", items = translateList(context.items), target = context.amount.text.toDouble(), unit = translateEnum<TimeUnit>(context.unit.text)!!)
-        }
-        registerNodeFactory(Item_declarationContext::class) { context ->
-            ItemDeclaration(context.text)
-        }
-        registerNodeFactory(ReferenceContext::class) { context ->
-            IngredientReference(ReferenceByName(name = context.text))
+        registerNodeFactory(ItemReferenceContext::class) { context ->
+            ItemReference(ReferenceByName(name = context.ID().joinToString(" ").lowercase()))
         }
     }
 }

@@ -32,8 +32,8 @@ class KukiKolasuParser : KolasuParser<Recipe, KukiParser, RecipeContext, KolasuA
         return astRoot
     }
 
-    override fun postProcessAst(recipe: Recipe, issues: MutableList<Issue>): Recipe {
-        resolveSymbols(recipe, issues)
-        return recipe
+    override fun postProcessAst(ast: Recipe, issues: MutableList<Issue>): Recipe {
+        resolveSymbols(ast, issues)
+        return ast
     }
 }
