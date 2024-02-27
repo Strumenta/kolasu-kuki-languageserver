@@ -21,3 +21,9 @@ tasks.compileKotlin {
 tasks.test {
     useJUnitPlatform()
 }
+
+tasks {
+    named("compileTestKotlin") {
+        dependsOn("generateTestGrammarSource")
+    }
+}
