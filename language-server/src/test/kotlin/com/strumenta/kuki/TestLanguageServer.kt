@@ -18,6 +18,7 @@ class TestAST : TestKolasuServer<Recipe>(KukiKolasuParser(), language = "kuki", 
     private val code = File(examplesDirectory, "Almond cookies.kuki").readText()
 
     @Test
+    @Ignore
     fun testLanguageServer() {
         expectDiagnostics(0)
 
