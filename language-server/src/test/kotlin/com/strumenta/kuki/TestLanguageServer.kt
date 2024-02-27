@@ -2,11 +2,11 @@ import com.strumenta.kolasu.languageserver.testing.TestKolasuServer
 import com.strumenta.kuki.ast.Recipe
 import com.strumenta.kuki.parser.KukiKolasuParser
 import org.eclipse.lsp4j.Position
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
 import java.io.File
-import java.nio.file.Path
-import java.nio.file.Paths
+import kotlin.test.Ignore
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 private val cwd = File("").absoluteFile
 private val examplesDirectory = File(cwd.parent, "examples")
