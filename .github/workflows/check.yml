@@ -1,0 +1,26 @@
+name: Checks
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: ['18']
+    name: Base checks (Java ${{ matrix.Java }})
+
+    steps:
+
+    - uses: actions/checkout@v1
+    - name: Setup java
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: ${{ matrix.java }}
+
+    - name: Test
+      run: ./gradlew check --stacktrace
+
+
