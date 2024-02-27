@@ -21,7 +21,6 @@ MIX: 'Mix';
 ADD: 'Add';
 HEAT: 'Heat';
 SERVE: 'Serve';
-WASH: 'Wash';
 PLACE: 'Place';
 BAKE: 'Bake';
 PEEL: 'Peel';
