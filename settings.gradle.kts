@@ -2,7 +2,6 @@ rootProject.name = "kuki"
 
 pluginManagement {
     repositories {
-        mavenLocal()
         gradlePluginPortal()
     }
 }
