@@ -5,11 +5,18 @@ import org.eclipse.lsp4j.Position
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import java.io.File
+import java.nio.file.Path
 import java.nio.file.Paths
 
+private val cwd = File("").absoluteFile
+private val examplesDirectory = File(cwd.parent, "examples")
+private val File.uriString
+    get() = this.toPath().toUri().toString()
+
 class TestAST : TestKolasuServer<Recipe>(KukiKolasuParser(), language = "kuki", fileExtensions = listOf("kuki")) {
-    private var example = Paths.get("..", "examples", "cookies.kuki").toUri().toString()
-    private val code = File(Paths.get("..", "examples", "cookies.kuki").toUri()).readText()
+    private var example = File(examplesDirectory, "Almond cookies.kuki").uriString
+    private val code = File(examplesDirectory, "Almond cookies.kuki").readText()
+
     @Test
     fun testLanguageServer() {
         expectDiagnostics(0)
@@ -20,12 +27,13 @@ class TestAST : TestKolasuServer<Recipe>(KukiKolasuParser(), language = "kuki", 
 
         val recipe = outline.children.first()
 
-        assertEquals(9, recipe.children.size)
+        assertEquals(12, recipe.children.size)
 
         assertEquals("Named tree", outline.name)
-        assertEquals("Almond", recipe.children.first().name)
+        assertEquals("almond", recipe.children.first().name)
 
-        val definition = definition(example, Position(11, 15))
+        // TODO FIX ME
+        val definition = definition(example, Position(14, 11))
         assertNotNull(definition)
         val references = references(example, Position(11, 15), true)
         assertNotNull(references)

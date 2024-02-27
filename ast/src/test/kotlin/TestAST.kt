@@ -1,7 +1,6 @@
-import com.strumenta.kolasu.traversing.walk
 import com.strumenta.kuki.parser.KukiKolasuParser
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
 import java.io.File
 
 class TestAST {
