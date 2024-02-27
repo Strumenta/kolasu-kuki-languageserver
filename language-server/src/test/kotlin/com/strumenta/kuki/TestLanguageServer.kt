@@ -8,8 +8,8 @@ import java.io.File
 import java.nio.file.Paths
 
 class TestAST : TestKolasuServer<Recipe>(KukiKolasuParser(), language = "kuki", fileExtensions = listOf("kuki")) {
-    private var example = Paths.get("..", "examples", "cookies.kuki").toUri().toString()
-    private val code = File(Paths.get("..", "examples", "cookies.kuki").toUri()).readText()
+    private var example = Paths.get("..", "examples", "Almond cookies.kuki").toUri().toString()
+    private val code = File(Paths.get("..", "examples", "Almond cookies.kuki").toUri()).readText()
     @Test
     fun testLanguageServer() {
         expectDiagnostics(0)
@@ -20,14 +20,14 @@ class TestAST : TestKolasuServer<Recipe>(KukiKolasuParser(), language = "kuki", 
 
         val recipe = outline.children.first()
 
-        assertEquals(9, recipe.children.size)
+        assertEquals(12, recipe.children.size)
 
         assertEquals("Named tree", outline.name)
-        assertEquals("Almond", recipe.children.first().name)
+        assertEquals("almond", recipe.children.first().name)
 
-        val definition = definition(example, Position(11, 15))
+        val definition = definition(example, Position(13, 15))
         assertNotNull(definition)
-        val references = references(example, Position(11, 15), true)
+        val references = references(example, Position(13, 15), true)
         assertNotNull(references)
     }
 }

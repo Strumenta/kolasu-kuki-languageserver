@@ -27,7 +27,7 @@ class TestAST {
 
     @Test
     fun testPastaCarbonara() {
-        val code = File("../examples/Pasta carbonara.kuki").readText()
+        val code = File("../examples/Spaghetti carbonara.kuki").readText()
         val parser = KukiKolasuParser()
 
         val parsingResult = parser.parse(code)
