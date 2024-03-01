@@ -1,6 +1,5 @@
 package com.strumenta.kuki.languageserver
 
-import com.strumenta.kolasu.languageserver.CodeGenerator
 import com.strumenta.kuki.parser.KukiKolasuParser
 import com.strumenta.kolasu.languageserver.KolasuServer
 import com.strumenta.kolasu.model.Node
@@ -8,8 +7,6 @@ import com.strumenta.kuki.ast.*
 import com.strumenta.kuki.codegenerator.KukiCodeGenerator
 import org.eclipse.lsp4j.*
 import org.eclipse.lsp4j.jsonrpc.messages.Either
-import java.io.File
-import java.net.URI
 import java.util.concurrent.CompletableFuture
 
 fun main() {
