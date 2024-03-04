@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+
 allprojects {
     group = "com.strumenta.kuki"
 }
@@ -12,15 +14,7 @@ subprojects {
         testLogging {
             showStandardStreams = true
             showExceptions = true
-            exceptionFormat =
-                org
-                    .gradle
-                    .api
-                    .tasks
-                    .testing
-                    .logging
-                    .TestExceptionFormat
-                    .FULL
+            exceptionFormat = TestExceptionFormat.FULL
         }
     }
 }

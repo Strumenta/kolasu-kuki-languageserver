@@ -20,16 +20,16 @@ class KukiCodeGenerator : CodeGenerator<Recipe> {
         val multiplier = amount.toFloat() / recipe.yield
         val code =
             """
-${recipe.name}
-
-INGREDIENTS for $amount
-${recipe.ingredients.joinToString("\n") { "- ${it.declaration.name}${if (it.amount != null) ": ${it.amount!!.toInt() * multiplier}" else ""}${it.unit?.name ?: ""}" }}
-
-UTENSILS
-${recipe.utensils.joinToString("\n") { "- ${it.declaration.name}" }}
-
-STEPS
-${recipe.steps.joinToString("\n") {
+            ${recipe.name}
+            
+            INGREDIENTS for $amount
+            ${recipe.ingredients.joinToString("\n") { "- ${it.declaration.name}${if (it.amount != null) ": ${it.amount!!.toInt() * multiplier}" else ""}${it.unit?.name ?: ""}" }}
+            
+            UTENSILS
+            ${recipe.utensils.joinToString("\n") { "- ${it.declaration.name}" }}
+            
+            STEPS
+            ${recipe.steps.joinToString("\n") {
                 when (it) {
                     is Creation -> "${recipe.steps.indexOf(it) + 1}. ${it.name.replaceFirstChar { x -> x.uppercase() }} the ${code(it.items)} into ${it.target.name}."
                     is Spatial -> "${recipe.steps.indexOf(it) + 1}. ${it.name.replaceFirstChar { x -> x.uppercase() }} the ${code(it.items)} in ${it.target.reference.name}."
@@ -38,7 +38,7 @@ ${recipe.steps.joinToString("\n") {
                     is Singular -> "${recipe.steps.indexOf(it) + 1}. ${it.name.replaceFirstChar { x -> x.uppercase() }} the ${code(it.items)}"
                 }
             }}
-""".trimIndent()
+            """.lines().joinToString("\n") { it.trim() }
         return code
     }
 

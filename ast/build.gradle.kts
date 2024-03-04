@@ -17,12 +17,10 @@ tasks.compileKotlin {
     dependsOn("generateGrammarSource")
 }
 
-tasks.test {
-    useJUnitPlatform()
+tasks.compileTestKotlin {
+    dependsOn("generateTestGrammarSource")
 }
 
-tasks {
-    named("compileTestKotlin") {
-        dependsOn("generateTestGrammarSource")
-    }
+tasks.test {
+    useJUnitPlatform()
 }
