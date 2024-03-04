@@ -33,10 +33,9 @@ class TestAST : TestKolasuServer<Recipe>(KukiKolasuParser(), language = "kuki", 
         assertEquals("Named tree", outline.name)
         assertEquals("almond", recipe.children.first().name)
 
-        // TODO FIX ME
-        val definition = definition(example, Position(14, 11))
+        val definition = definition(example, Position(13, 15))
         assertNotNull(definition)
-        val references = references(example, Position(11, 15), true)
+        val references = references(example, Position(13, 15), true)
         assertNotNull(references)
     }
 }

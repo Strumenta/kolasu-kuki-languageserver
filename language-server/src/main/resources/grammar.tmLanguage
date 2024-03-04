@@ -28,7 +28,7 @@
                 <key>name</key>
                 <string>entity.name.function.kuki</string>
                 <key>match</key>
-                <string>\b(Mix|Cut|Place|Heat|Bake)\b</string>
+                <string>\b(Mix|Slice|Place|Add|Heat|Bake|Cook|Beat|Serve|Peel|Grate|Drain|Flip)\b</string>
             </dict>
             <dict>
                 <key>name</key>
