@@ -10,4 +10,4 @@ It shows how to use Kolasu and its language server plugin to create a code edito
 - Symbol navigation
 - Code generation
 
-[tutorial on Kolasu language servers]: 
+[tutorial on Kolasu language servers]: https://tomassetti.me/build-an-editor-with-kolasu-and-language-servers/
