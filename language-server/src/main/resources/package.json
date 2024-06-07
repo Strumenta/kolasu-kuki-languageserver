@@ -1,0 +1,40 @@
+{
+    "name": "kuki",
+    "version": "0.0.0","icon": "logo.png",
+    "publisher": "strumenta",
+    "repository": "https://github.com/Strumenta/kolasu-kuki-parser",
+    "contributes":
+    {
+        "languages":
+        [
+            {"id": "kuki", "extensions": [".kuki"], "icon": {"dark": "fileIcon.png", "light": "fileIcon.png"}}
+        ],
+        "configuration": {
+            "title": "Kuki",
+            "properties": {
+                "kuki.showParsingErrors": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Show parsing errors produced by ANTLR."
+                },
+                "kuki.showASTWarnings": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Show warnings for ast inconsistencies."
+                },
+                "kuki.showLeafPositions": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Show all leaves' positions."
+                }
+            }
+        },
+        "grammars":
+        [
+            {"language": "kuki", "scopeName": "main", "path": "./grammar.tmLanguage.json"}
+        ]
+    },
+    "engines": {"vscode": "^1.52.0"},
+    "activationEvents": ["onLanguage:kuki"],
+    "main": "client.js"
+}
