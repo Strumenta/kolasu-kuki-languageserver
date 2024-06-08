@@ -7,6 +7,7 @@ import com.strumenta.kuki.ast.*
 import com.strumenta.kuki.codegenerator.KukiCodeGenerator
 import org.eclipse.lsp4j.*
 import org.eclipse.lsp4j.jsonrpc.messages.Either
+import org.eclipse.lsp4j.jsonrpc.messages.Either3
 import java.util.concurrent.CompletableFuture
 
 fun main() {
@@ -44,7 +45,19 @@ class KukiServer : KolasuServer<Recipe>(KukiKolasuParser(), "kuki", listOf("kuki
         capabilities.setDefinitionProvider(true)
         capabilities.setReferencesProvider(true)
 
+        val semanticHighlighting = SemanticTokensWithRegistrationOptions()
+        semanticHighlighting.legend = SemanticTokensLegend(listOf("type", "class", "interface", "enum", "function", "variable"), listOf());
+        semanticHighlighting.full = Either.forLeft(true)
+        capabilities.semanticTokensProvider = semanticHighlighting
+
         return CompletableFuture.completedFuture(InitializeResult(capabilities))
+    }
+
+    override fun semanticTokensFull(params: SemanticTokensParams): CompletableFuture<SemanticTokens> {
+
+        val parsingResult = this.files.get(params.textDocument.uri)
+        val data = listOf(0, 0, 5, 4, 0,  1, 6, 3, 2, 0)
+        return CompletableFuture.completedFuture(SemanticTokens(data))
     }
 }
 
