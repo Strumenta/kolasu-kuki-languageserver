@@ -16,8 +16,8 @@ languageServer {
 
 tasks.register("copyGrammarFile") {
     doLast {
-        val sourcePath = Paths.get(projectDir.toString(), "src", "main", "resources", "grammar.tmLanguage.json")
-        val destinationPath = Paths.get(projectDir.toString(), "build", "vscode", "grammar.tmLanguage.json")
+        val sourcePath = Paths.get(projectDir.toString(), "src", "main", "resources", "syntax.json")
+        val destinationPath = Paths.get(projectDir.toString(), "build", "vscode", "syntax.json")
 
         Files.createDirectories(destinationPath.parent)
         if (!Files.exists(destinationPath)) {
