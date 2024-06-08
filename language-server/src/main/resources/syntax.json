@@ -1,22 +1,25 @@
 {
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-	"scopeName": "main",
+	"scopeName": "source.kuki",
 	"patterns": [
 		{
 			"match": "\\b(INGREDIENTS|UTENSILS|STEPS)\\b",
-			"name": "keyword.control.kuki"
-		},
-		{
-			"match": "\\b(the|into|in|to|for|and)\\b",
-			"name": "keyword.letter.kuki"
+			"name": "entity.name.section"
 		},
 		{
 			"match": "\\b(Mix|Slice|Place|Add|Heat|Bake|Cook|Beat|Serve|Peel|Grate|Drain|Flip)\\b",
 			"name": "entity.name.function.kuki"
 		},
 		{
-			"match": "\\b(\\d+(\\.\\d+)?|seconds|minutes|hours|degrees|Farenheit|g|ml)\\b",
-			"name": "constant.numeric.kuki"
+			"match": "\\b(the|into|in|to|for|and)\\b",
+			"name": "keyword.other.kuki"
+		},
+		{
+			"match": "\\b(\\d+(\\.\\d+)?)( (seconds|minutes|hours|degrees|Farenheit|g|ml))?\\b",
+			"captures": {
+				"1": { "name": "constant.numeric.kuki"},
+				"4": { "name": "storage.type.kuki"}
+			}
 		},
 		{
 			"match": "(:|-|\\.)",

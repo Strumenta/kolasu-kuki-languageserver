@@ -12,7 +12,7 @@
     ],
     "grammars":
     [
-      {"language": "kuki", "scopeName": "main", "path": "./syntax.json"}
+      {"language": "kuki", "scopeName": "source.kuki", "path": "./syntax.json"}
     ]
   },
   "engines": {"vscode": "^1.52.0"},
