@@ -5,7 +5,7 @@ import com.strumenta.kolasu.validation.IssueSeverity
 import com.strumenta.kuki.ast.*
 
 fun resolveSymbols(recipe: Recipe, issues: MutableList<Issue>) {
-    val declarations = mutableMapOf<String, ItemDeclaration>()
+    val declarations = mutableMapOf<String, Name>()
     val referencedDeclarations = mutableSetOf<String>()
 
     fun checkReferences (items: List<ItemReference>) {
@@ -20,7 +20,7 @@ fun resolveSymbols(recipe: Recipe, issues: MutableList<Issue>) {
         }
     }
 
-    fun define (name: String, item: ItemDeclaration) {
+    fun define (name: String, item: Name) {
         if (declarations[name] == null) {
             declarations[name] = item
         } else {

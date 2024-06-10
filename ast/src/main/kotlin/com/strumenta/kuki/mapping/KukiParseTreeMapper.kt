@@ -11,14 +11,14 @@ import com.strumenta.kuki.ast.*
 class KukiParseTreeMapper : ParseTreeToASTTransformer() {
     init {
         registerNodeFactory(RecipeContext::class) { context -> Recipe(
-            name = context.title.joinToString(" ") { it.text },
+            name = translateCasted(context.title),
             yield = context.yield.text.toInt(),
             ingredients = translateList(context.ingredients),
             utensils = translateList(context.utensils),
             steps = translateList(context.steps))
         }
         registerNodeFactory(IngredientContext::class) { context -> Ingredient(
-            declaration = translateCasted(context.itemDeclaration()),
+            declaration = translateCasted(context.identifier()),
             amount = context.amount?.text?.toDouble(),
             unit = translateEnum<MeasureUnit>(context.unit?.text))
         }
@@ -51,10 +51,10 @@ class KukiParseTreeMapper : ParseTreeToASTTransformer() {
         }
         registerNodeFactory(SingularContext::class) { context -> Singular(
             name = context.name.text,
-            items = context.items.items.map { translateCasted(it) }
-        )}
-        registerNodeFactory(ItemDeclarationContext::class) { context ->
-            ItemDeclaration(context.ID().joinToString(" ").lowercase())
+            items = context.items.items.map { translateCasted(it) })
+        }
+        registerNodeFactory(IdentifierContext::class) { context ->
+            Name(context.ID().joinToString(" ").lowercase())
         }
         registerNodeFactory(ItemReferenceContext::class) { context ->
             ItemReference(ReferenceByName(name = context.ID().joinToString(" ").lowercase()))
