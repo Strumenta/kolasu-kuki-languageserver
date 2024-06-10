@@ -54,9 +54,10 @@ class KukiServer : KolasuServer<Recipe>(KukiKolasuParser(), "kuki", listOf("kuki
     }
 
     override fun semanticTokensFull(params: SemanticTokensParams): CompletableFuture<SemanticTokens> {
-
-        val parsingResult = this.files.get(params.textDocument.uri)
-        val data = listOf(0, 0, 5, 4, 0,  1, 6, 3, 2, 0)
+        val data = mutableListOf<Int>()
+        val recipe = files[params.textDocument.uri]?.root ?: return CompletableFuture.completedFuture(SemanticTokens(data))
+        val p = recipe.name.position ?: return CompletableFuture.completedFuture(SemanticTokens(data))
+        data.addAll(listOf(p.start.line - 1, p.start.column, p.end.column - p.start.column, 0, 0))
         return CompletableFuture.completedFuture(SemanticTokens(data))
     }
 }
