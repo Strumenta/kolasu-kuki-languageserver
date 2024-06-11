@@ -5,6 +5,10 @@ import com.strumenta.kolasu.languageserver.KolasuServer
 import com.strumenta.kolasu.model.Node
 import com.strumenta.kuki.ast.*
 import com.strumenta.kuki.codegenerator.KukiCodeGenerator
+import com.strumenta.kuki.semanticHighlighting.SemanticToken
+import com.strumenta.kuki.semanticHighlighting.SemanticTokenModifier
+import com.strumenta.kuki.semanticHighlighting.SemanticTokenType
+import com.strumenta.kuki.semanticHighlighting.encode
 import org.eclipse.lsp4j.*
 import org.eclipse.lsp4j.jsonrpc.messages.Either
 import org.eclipse.lsp4j.jsonrpc.messages.Either3
@@ -45,20 +49,20 @@ class KukiServer : KolasuServer<Recipe>(KukiKolasuParser(), "kuki", listOf("kuki
         capabilities.setDefinitionProvider(true)
         capabilities.setReferencesProvider(true)
 
-        val semanticHighlighting = SemanticTokensWithRegistrationOptions()
-        semanticHighlighting.legend = SemanticTokensLegend(listOf("type", "class", "interface", "enum", "function", "variable"), listOf());
-        semanticHighlighting.full = Either.forLeft(true)
-        capabilities.semanticTokensProvider = semanticHighlighting
+        capabilities.semanticTokensProvider = SemanticTokensWithRegistrationOptions().apply {
+            legend = SemanticTokensLegend(SemanticTokenType.values().map { it.legendName }, SemanticTokenModifier.values().map { it.legendName });
+            full = Either.forLeft(true)
+        }
 
         return CompletableFuture.completedFuture(InitializeResult(capabilities))
     }
 
     override fun semanticTokensFull(params: SemanticTokensParams): CompletableFuture<SemanticTokens> {
-        val data = mutableListOf<Int>()
-        val recipe = files[params.textDocument.uri]?.root ?: return CompletableFuture.completedFuture(SemanticTokens(data))
-        val p = recipe.name.position ?: return CompletableFuture.completedFuture(SemanticTokens(data))
-        data.addAll(listOf(p.start.line - 1, p.start.column, p.end.column - p.start.column, 0, 0))
-        return CompletableFuture.completedFuture(SemanticTokens(data))
+        val tokens = mutableListOf<SemanticToken>()
+
+        val recipe = files[params.textDocument.uri]?.root ?: return CompletableFuture.completedFuture(encode(tokens))
+        val p = recipe.name.position ?: return CompletableFuture.completedFuture(encode(tokens))
+        tokens.add(SemanticToken(p, SemanticTokenType.TYPE, listOf()))
+        return CompletableFuture.completedFuture(encode(tokens))
     }
 }
-
