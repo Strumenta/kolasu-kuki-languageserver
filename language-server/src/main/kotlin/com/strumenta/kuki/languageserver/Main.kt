@@ -11,7 +11,6 @@ import com.strumenta.kuki.semanticHighlighting.SemanticTokenType
 import com.strumenta.kuki.semanticHighlighting.encode
 import org.eclipse.lsp4j.*
 import org.eclipse.lsp4j.jsonrpc.messages.Either
-import org.eclipse.lsp4j.jsonrpc.messages.Either3
 import java.util.concurrent.CompletableFuture
 
 fun main() {
@@ -60,9 +59,57 @@ class KukiServer : KolasuServer<Recipe>(KukiKolasuParser(), "kuki", listOf("kuki
     override fun semanticTokensFull(params: SemanticTokensParams): CompletableFuture<SemanticTokens> {
         val tokens = mutableListOf<SemanticToken>()
 
+        fun addIngredientAt(position: com.strumenta.kolasu.model.Position?, isDeclaration: Boolean = false) {
+            if (position != null) {
+                tokens.add(SemanticToken(position, SemanticTokenType.VARIABLE, if (isDeclaration) listOf(SemanticTokenModifier.DECLARATION) else listOf(SemanticTokenModifier.READ_ONLY)))
+            }
+        }
+        fun addUtensilAt(position: com.strumenta.kolasu.model.Position?, isDeclaration: Boolean = false) {
+            if (position != null) {
+                tokens.add(SemanticToken(position, SemanticTokenType.STRUCT, if (isDeclaration) listOf(SemanticTokenModifier.DECLARATION) else listOf(SemanticTokenModifier.READ_ONLY)))
+            }
+        }
+        fun addTokenFor(item: ItemReference) {
+            when (item.reference.referred?.parent) {
+                is Ingredient -> addIngredientAt(item.position)
+                is Utensil -> addUtensilAt(item.position)
+                else -> addIngredientAt(item.position)
+            }
+        }
+
         val recipe = files[params.textDocument.uri]?.root ?: return CompletableFuture.completedFuture(encode(tokens))
-        val p = recipe.name.position ?: return CompletableFuture.completedFuture(encode(tokens))
-        tokens.add(SemanticToken(p, SemanticTokenType.TYPE, listOf()))
+
+        val titlePosition = recipe.name.position ?: return CompletableFuture.completedFuture(encode(tokens))
+        tokens.add(SemanticToken(titlePosition, SemanticTokenType.TYPE, listOf()))
+
+        for (ingredient in recipe.ingredients) {
+            addIngredientAt(ingredient.declaration.position, isDeclaration = true)
+        }
+        for (utensil in recipe.utensils) {
+            addUtensilAt(utensil.position, isDeclaration = true)
+        }
+        for (step in recipe.steps) {
+            when (step) {
+                is Creation -> {
+                    step.items.forEach { addTokenFor(it) }
+                    addIngredientAt(step.target.position)
+                }
+                is Spatial -> {
+                    step.items.forEach { addTokenFor(it) }
+                    addTokenFor(step.target)
+                }
+                is Singular -> {
+                    step.items.forEach { addTokenFor(it) }
+                }
+                is Temperature -> {
+                    step.items.forEach { addTokenFor(it) }
+                }
+                is Temporal -> {
+                    step.items.forEach { addTokenFor(it) }
+                }
+            }
+        }
+
         return CompletableFuture.completedFuture(encode(tokens))
     }
 }
