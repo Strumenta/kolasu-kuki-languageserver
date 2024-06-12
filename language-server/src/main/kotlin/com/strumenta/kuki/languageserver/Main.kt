@@ -86,7 +86,7 @@ class KukiServer : KolasuServer<Recipe>(KukiKolasuParser(), "kuki", listOf("kuki
             addIngredientAt(ingredient.declaration.position, isDeclaration = true)
         }
         for (utensil in recipe.utensils) {
-            addUtensilAt(utensil.position, isDeclaration = true)
+            addUtensilAt(utensil.declaration.position, isDeclaration = true)
         }
         for (step in recipe.steps) {
             when (step) {
