@@ -9,7 +9,7 @@ repositories {
 
 dependencies {
     antlr("org.antlr:antlr4:4.13.1")
-    implementation("com.strumenta.kolasu:kolasu-core:1.5.34")
+    implementation("com.strumenta.kolasu:kolasu-core:1.5.73")
     testImplementation(kotlin("test"))
 }
 
