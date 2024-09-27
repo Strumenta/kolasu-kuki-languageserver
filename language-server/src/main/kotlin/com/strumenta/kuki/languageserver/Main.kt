@@ -50,7 +50,7 @@ class KukiServer : KolasuServer<Recipe>(KukiKolasuParser(), "kuki", listOf("kuki
 
         capabilities.semanticTokensProvider = SemanticTokensWithRegistrationOptions().apply {
             legend = SemanticTokensLegend(SemanticTokenType.values().map { it.legendName }, SemanticTokenModifier.values().map { it.legendName });
-            full = Either.forLeft(true)
+            full = Either.forRight(SemanticTokensServerFull(true))
         }
 
         return CompletableFuture.completedFuture(InitializeResult(capabilities))
