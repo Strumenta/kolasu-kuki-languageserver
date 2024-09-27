@@ -1,10 +1,10 @@
 package com.strumenta.kuki
 
 import com.google.gson.JsonObject
-import com.strumenta.kolasu.languageserver.testing.TestKolasuServer
 import com.strumenta.kuki.ast.Recipe
 import com.strumenta.kuki.languageserver.KukiServer
 import com.strumenta.kuki.parser.KukiKolasuParser
+import com.strumenta.kolasu.languageserver.testing.TestKolasuServer
 import org.eclipse.lsp4j.DidChangeConfigurationParams
 import org.eclipse.lsp4j.InitializeParams
 import org.eclipse.lsp4j.InitializedParams
