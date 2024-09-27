@@ -12,6 +12,7 @@ dependencies {
 
 languageServer {
     packageDefinitionPath = Paths.get(projectDir.toString(), "src", "main", "resources", "package.json")
+	 editor = "codium"
 }
 
 tasks.register("copyGrammarFile") {
