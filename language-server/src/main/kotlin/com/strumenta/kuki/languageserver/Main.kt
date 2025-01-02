@@ -2,13 +2,12 @@ package com.strumenta.kuki.languageserver
 
 import com.strumenta.kuki.parser.KukiKolasuParser
 import com.strumenta.kolasu.languageserver.KolasuServer
+import com.strumenta.kolasu.languageserver.semanticHighlighting.SemanticToken
+import com.strumenta.kolasu.languageserver.semanticHighlighting.SemanticTokenModifier
+import com.strumenta.kolasu.languageserver.semanticHighlighting.SemanticTokenType
 import com.strumenta.kolasu.model.Node
 import com.strumenta.kuki.ast.*
 import com.strumenta.kuki.codegenerator.KukiCodeGenerator
-import com.strumenta.kuki.semanticHighlighting.SemanticToken
-import com.strumenta.kuki.semanticHighlighting.SemanticTokenModifier
-import com.strumenta.kuki.semanticHighlighting.SemanticTokenType
-import com.strumenta.kuki.semanticHighlighting.encode
 import org.eclipse.lsp4j.*
 import org.eclipse.lsp4j.jsonrpc.messages.Either
 import java.util.concurrent.CompletableFuture
@@ -56,7 +55,7 @@ class KukiServer : KolasuServer<Recipe>(KukiKolasuParser(), "kuki", listOf("kuki
         return CompletableFuture.completedFuture(InitializeResult(capabilities))
     }
 
-    override fun semanticTokensFull(params: SemanticTokensParams): CompletableFuture<SemanticTokens> {
+    override fun semanticTokens(ast: Recipe): List<SemanticToken> {
         val tokens = mutableListOf<SemanticToken>()
 
         fun addIngredientAt(position: com.strumenta.kolasu.model.Position?, isDeclaration: Boolean = false) {
@@ -77,18 +76,16 @@ class KukiServer : KolasuServer<Recipe>(KukiKolasuParser(), "kuki", listOf("kuki
             }
         }
 
-        val recipe = files[params.textDocument.uri]?.root ?: return CompletableFuture.completedFuture(encode(tokens))
-
-        val titlePosition = recipe.name.position ?: return CompletableFuture.completedFuture(encode(tokens))
+        val titlePosition = ast.name.position ?: return tokens
         tokens.add(SemanticToken(titlePosition, SemanticTokenType.TYPE, listOf()))
 
-        for (ingredient in recipe.ingredients) {
+        for (ingredient in ast.ingredients) {
             addIngredientAt(ingredient.declaration.position, isDeclaration = true)
         }
-        for (utensil in recipe.utensils) {
+        for (utensil in ast.utensils) {
             addUtensilAt(utensil.declaration.position, isDeclaration = true)
         }
-        for (step in recipe.steps) {
+        for (step in ast.steps) {
             when (step) {
                 is Creation -> {
                     step.items.forEach { addTokenFor(it) }
@@ -110,6 +107,6 @@ class KukiServer : KolasuServer<Recipe>(KukiKolasuParser(), "kuki", listOf("kuki
             }
         }
 
-        return CompletableFuture.completedFuture(encode(tokens))
+        return tokens
     }
 }
