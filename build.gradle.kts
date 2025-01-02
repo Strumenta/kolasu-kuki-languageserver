@@ -2,10 +2,6 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 allprojects {
     group = "com.strumenta.kuki"
-	 repositories {
-		mavenLocal()
-		mavenCentral()
-	 }
 }
 
 tasks.wrapper {
